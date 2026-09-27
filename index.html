@@ -219,6 +219,13 @@
     <p>Free Windows utilities. Download the .exe or grab the full source folder.</p>
   </header>
 
+
+
+
+
+
+
+  
   <section class="project">
     <div class="project-header">
       <h2 class="project-title">PhotoEditor.exe</h2>
@@ -257,6 +264,61 @@
     </div>
   </section>
 
+
+
+
+
+
+
+
+<section class="project">
+    <div class="project-header">
+      <h2 class="project-title">Unbounded Browser.exe</h2>
+      <span class="version-badge">v1.0.0</span>
+    </div>
+    <p class="project-desc">
+      A lightweight Windows desktop browser built on chrome as a standalone .exe - no installation required.
+    </p>
+
+    <div class="download-row">
+      <a class="btn btn-primary" href="https://github.com/Servlyn/unbounded/releases/download/V1/Unbounded.Setup.1.0.0.exe" onclick="showThanks()">⬇ Download .exe</a>
+      <a class="btn btn-secondary" href="https://github.com/Servlyn/unbounded/releases/download/V1/Unbounded.zip" onclick="showThanks()">⬇ Download Full Source (.zip)</a>
+      <a class="btn btn-secondary" href="https://github.com/Servlyn/unbounded/releases" target="_blank" rel="noopener">View on GitHub ↗</a>
+    </div>
+
+    <button class="files-toggle" onclick="toggleTree(this)">
+      <span class="chevron">▶</span> View files
+    </button>
+    <div class="file-tree">
+      <ul>
+        <li class="folder">Unbounded Browser
+          <ul>
+            <li class="file">index.html</li>
+            <li class="file">bookmarks.html</li>
+            <li class="file">home.html</li>
+            <li class="file">settings.html</li>
+            <li class="file">stats.html</li>
+            <li class="file">adblock-domains.json</li>
+            <li class="file">package.json</li>
+            <li class="file">package-lock.json</li>
+            <li class="file">.gitignore</li>
+            <li class="file">main.js</li>
+            <li class="file">icon.ico</li>
+            <li class="folder">wallpaper
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+
+
+  
+
+
+
+  
   <div class="feature-box">
     <h3>Have a feature request?</h3>
     <p>Let me know what you'd like to see added or changed.</p>
@@ -265,6 +327,7 @@
       <select name="Project" required>
         <option value="" disabled selected>Select a project</option>
         <option value="PhotoEditorEXE">PhotoEditorEXE</option>
+        <option value="UnboundedBrowser">Unbounded Browser</option>
       </select>
       <input type="text" name="Name / Email" placeholder="Your name or email (optional)">
       <textarea name="Feature Request" placeholder="What would you like to see?" required></textarea>
