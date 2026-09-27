@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Apps</title>
+<title>C & K Productions</title>
 <style>
   :root {
     --bg: #0d0f12;
@@ -30,7 +30,6 @@
   header h1 { font-size: 28px; margin: 0 0 6px; }
   header p { color: var(--text-dim); margin: 0; font-size: 15px; }
 
-  /* ===== PROJECT CARD TEMPLATE — duplicate this whole <section class="project"> block for each new app ===== */
   .project {
     background: var(--card);
     border: 1px solid var(--border);
@@ -111,7 +110,6 @@
   }
   .file-tree .folder::before { content: "📁 "; }
   .file-tree .file::before { content: "📄 "; }
-  /* ===== END PROJECT CARD TEMPLATE ===== */
 
   footer {
     text-align: center;
@@ -121,7 +119,6 @@
   }
   footer a { color: var(--accent-hover); text-decoration: none; }
 
-  /* Modal */
   .modal-overlay {
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.6);
@@ -166,7 +163,6 @@
   }
   .modal-close:hover { background: var(--accent-hover); }
 
-  /* Feature request box */
   .feature-box {
     background: var(--card);
     border: 1px solid var(--border);
@@ -219,20 +215,17 @@
 <div class="wrap">
 
   <header>
-    <h1>My Apps</h1>
+    <h1>C & K Productions</h1>
     <p>Free Windows utilities. Download the .exe or grab the full source folder.</p>
   </header>
 
-  <!-- ============================================================ -->
-  <!-- PROJECT: PhotoEditorEXE — duplicate this <section> per app   -->
-  <!-- ============================================================ -->
   <section class="project">
     <div class="project-header">
       <h2 class="project-title">PhotoEditorEXE</h2>
       <span class="version-badge">v1.0.0</span>
     </div>
     <p class="project-desc">
-      A lightweight Windows desktop photo editor built with Python, PySide6, and Pillow. Packaged as a standalone .exe — no installation required.
+      A lightweight Windows desktop photo editor built with Python, PySide6, and Pillow. Packaged as a standalone .exe - no installation required.
     </p>
 
     <div class="download-row">
@@ -263,21 +256,15 @@
       </ul>
     </div>
   </section>
-  <!-- ============================================================ -->
-  <!-- END PROJECT: PhotoEditorEXE                                   -->
-  <!-- ============================================================ -->
 
   <div class="feature-box">
     <h3>Have a feature request?</h3>
     <p>Let me know what you'd like to see added or changed.</p>
-    <form action="https://formsubmit.co/callum@servlyn.net" method="POST">
-      <!-- honeypot-free, no captcha on first submit — you must click the confirmation
-           email FormSubmit sends to callum@servlyn.net before this goes live -->
+    <form action="https://formsubmit.co/calysnee@gmail.com" method="POST">
       <input type="hidden" name="_subject" value="New Feature Request">
       <select name="Project" required>
         <option value="" disabled selected>Select a project</option>
         <option value="PhotoEditorEXE">PhotoEditorEXE</option>
-        <!-- add a new <option> here for each future project, matching its title above -->
       </select>
       <input type="text" name="Name / Email" placeholder="Your name or email (optional)">
       <textarea name="Feature Request" placeholder="What would you like to see?" required></textarea>
@@ -286,13 +273,12 @@
   </div>
 
   <footer>
-    Made by <a href="https://github.com/Servlyn">Servlyn</a> — all downloads are free and open.
+    Made by <a href="https://github.com/Servlyn">Servlyn</a> - all downloads are free and open.
     <br>
     <span class="discord-link">Discord: coming soon</span>
   </footer>
 </div>
 
-<!-- Thank-you modal -->
 <div class="modal-overlay" id="thanksModal">
   <div class="modal">
     <div class="icon">✓</div>
