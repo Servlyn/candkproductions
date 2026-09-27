@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Apps</title>
+<style>
+  :root {
+    --bg: #0d0f12;
+    --card: #17191d;
+    --card-hover: #1e2126;
+    --border: #2a2d33;
+    --text: #eef0f2;
+    --text-dim: #9aa0a8;
+    --accent: #5b8cff;
+    --accent-hover: #7aa2ff;
+    --green: #3ecf8e;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 40px 20px 80px;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  header { margin-bottom: 40px; }
+  header h1 { font-size: 28px; margin: 0 0 6px; }
+  header p { color: var(--text-dim); margin: 0; font-size: 15px; }
+
+  /* ===== PROJECT CARD TEMPLATE — duplicate this whole <section class="project"> block for each new app ===== */
+  .project {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 28px;
+  }
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .project-title { font-size: 20px; font-weight: 600; margin: 0; }
+  .version-badge {
+    background: rgba(91,140,255,0.15);
+    color: var(--accent-hover);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(91,140,255,0.3);
+    white-space: nowrap;
+  }
+  .project-desc { color: var(--text-dim); font-size: 14px; line-height: 1.5; margin: 0 0 18px; }
+
+  .download-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform .08s ease, background .15s ease;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-secondary { background: transparent; color: var(--text); border-color: var(--border); }
+  .btn-secondary:hover { background: var(--card-hover); }
+
+  .files-toggle {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 13px;
+    cursor: pointer;
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .files-toggle:hover { color: var(--text); }
+  .chevron { transition: transform .15s ease; font-size: 11px; }
+  .chevron.open { transform: rotate(90deg); }
+
+  .file-tree {
+    margin-top: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    display: none;
+  }
+  .file-tree.open { display: block; }
+  .file-tree ul { list-style: none; margin: 0; padding-left: 18px; }
+  .file-tree > ul { padding-left: 0; }
+  .file-tree li {
+    font-size: 13.5px;
+    color: var(--text-dim);
+    padding: 3px 0;
+    font-family: "SF Mono", Consolas, monospace;
+  }
+  .file-tree .folder::before { content: "📁 "; }
+  .file-tree .file::before { content: "📄 "; }
+  /* ===== END PROJECT CARD TEMPLATE ===== */
+
+  footer {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-top: 50px;
+  }
+  footer a { color: var(--accent-hover); text-decoration: none; }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    max-width: 380px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    animation: pop .18s ease;
+  }
+  @keyframes pop { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .modal .icon {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: rgba(62,207,142,0.15);
+    color: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 24px;
+  }
+  .modal h3 { margin: 0 0 8px; font-size: 18px; }
+  .modal p { margin: 0 0 20px; color: var(--text-dim); font-size: 14px; line-height: 1.5; }
+  .modal-close {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .modal-close:hover { background: var(--accent-hover); }
+
+  /* Feature request box */
+  .feature-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-top: 10px;
+  }
+  .feature-box h3 { margin: 0 0 6px; font-size: 16px; }
+  .feature-box p { margin: 0 0 14px; color: var(--text-dim); font-size: 13.5px; }
+  .feature-box textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 70px;
+    margin-bottom: 10px;
+  }
+  .feature-box input,
+  .feature-box select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    margin-bottom: 10px;
+  }
+  .feature-box select { cursor: pointer; }
+
+  .discord-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    font-size: 13px;
+    text-decoration: none;
+    margin-top: 4px;
+  }
+  .discord-link:hover { color: var(--text); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>My Apps</h1>
+    <p>Free Windows utilities. Download the .exe or grab the full source folder.</p>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- PROJECT: PhotoEditorEXE — duplicate this <section> per app   -->
+  <!-- ============================================================ -->
+  <section class="project">
+    <div class="project-header">
+      <h2 class="project-title">PhotoEditorEXE</h2>
+      <span class="version-badge">v1.0.0</span>
+    </div>
+    <p class="project-desc">
+      A lightweight Windows desktop photo editor built with Python, PySide6, and Pillow. Packaged as a standalone .exe — no installation required.
+    </p>
+
+    <div class="download-row">
+      <a class="btn btn-primary" href="https://github.com/Servlyn/photo-editor-exe/releases/download/v1.0.0/PhotoEditor.exe" onclick="showThanks()">⬇ Download .exe</a>
+      <a class="btn btn-secondary" href="https://github.com/Servlyn/photo-editor-exe/releases/download/v1.0.0/Photo.Editor.zip" onclick="showThanks()">⬇ Download Full Source (.zip)</a>
+      <a class="btn btn-secondary" href="https://github.com/Servlyn/photo-editor-exe/releases" target="_blank" rel="noopener">View on GitHub ↗</a>
+    </div>
+
+    <button class="files-toggle" onclick="toggleTree(this)">
+      <span class="chevron">▶</span> View files
+    </button>
+    <div class="file-tree">
+      <ul>
+        <li class="folder">PhotoEditorEXE
+          <ul>
+            <li class="file">main.py</li>
+            <li class="file">editor_window.py</li>
+            <li class="file">image_utils.py</li>
+            <li class="file">requirements.txt</li>
+            <li class="file">.gitignore</li>
+            <li class="folder">assets
+              <ul>
+                <li class="file">icon.ico</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <!-- ============================================================ -->
+  <!-- END PROJECT: PhotoEditorEXE                                   -->
+  <!-- ============================================================ -->
+
+  <div class="feature-box">
+    <h3>Have a feature request?</h3>
+    <p>Let me know what you'd like to see added or changed.</p>
+    <form action="https://formsubmit.co/callum@servlyn.net" method="POST">
+      <!-- honeypot-free, no captcha on first submit — you must click the confirmation
+           email FormSubmit sends to callum@servlyn.net before this goes live -->
+      <input type="hidden" name="_subject" value="New Feature Request">
+      <select name="Project" required>
+        <option value="" disabled selected>Select a project</option>
+        <option value="PhotoEditorEXE">PhotoEditorEXE</option>
+        <!-- add a new <option> here for each future project, matching its title above -->
+      </select>
+      <input type="text" name="Name / Email" placeholder="Your name or email (optional)">
+      <textarea name="Feature Request" placeholder="What would you like to see?" required></textarea>
+      <button class="btn btn-primary" type="submit" style="width:100%; justify-content:center;">Send Request</button>
+    </form>
+  </div>
+
+  <footer>
+    Made by <a href="#">Servlyn</a> — all downloads are free and open.
+    <br>
+    <span class="discord-link">Discord: coming soon</span>
+  </footer>
+</div>
+
+<!-- Thank-you modal -->
+<div class="modal-overlay" id="thanksModal">
+  <div class="modal">
+    <div class="icon">✓</div>
+    <h3>Thanks for downloading!</h3>
+    <p>Your download should start shortly. If you run into any issues, use the feature request box below to let us know.</p>
+    <button class="modal-close" onclick="closeThanks()">Got it</button>
+  </div>
+</div>
+
+<script>
+  function showThanks() {
+    document.getElementById('thanksModal').classList.add('open');
+  }
+  function closeThanks() {
+    document.getElementById('thanksModal').classList.remove('open');
+  }
+  function toggleTree(btn) {
+    const tree = btn.nextElementSibling;
+    tree.classList.toggle('open');
+    btn.querySelector('.chevron').classList.toggle('open');
+  }
+</script>
+</body>
+</html>
