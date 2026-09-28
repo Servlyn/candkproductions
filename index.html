@@ -18,17 +18,75 @@
     --radius: 14px;
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
     background: var(--bg);
     color: var(--text);
-    padding: 40px 20px 80px;
+    padding: 0 0 80px;
   }
-  .wrap { max-width: 880px; margin: 0 auto; }
-  header { margin-bottom: 40px; }
-  header h1 { font-size: 28px; margin: 0 0 6px; }
-  header p { color: var(--text-dim); margin: 0; font-size: 15px; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    background: rgba(13,15,18,0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-brand .logo-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+  }
+  .nav-links { display: flex; align-items: center; gap: 8px; }
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: color .15s ease, background .15s ease;
+  }
+  .nav-links a:hover { color: var(--text); background: var(--card-hover); }
+  .nav-links a.nav-cta {
+    background: var(--accent);
+    color: white;
+    padding: 8px 16px;
+  }
+  .nav-links a.nav-cta:hover { background: var(--accent-hover); }
+
+  header { margin: 48px 0 40px; }
+  header h1 { font-size: 30px; margin: 0 0 6px; }
+  header p { color: var(--text-dim); margin: 0 0 4px; font-size: 15px; }
+
+  .project, .feature-box {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .project.in-view, .feature-box.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
   .project {
     background: var(--card);
@@ -36,7 +94,9 @@
     border-radius: var(--radius);
     padding: 24px;
     margin-bottom: 28px;
+    transition: opacity .5s ease, transform .5s ease, border-color .2s ease;
   }
+  .project:hover { border-color: #3a3f47; }
   .project-header {
     display: flex;
     justify-content: space-between;
@@ -58,7 +118,7 @@
   }
   .project-desc { color: var(--text-dim); font-size: 14px; line-height: 1.5; margin: 0 0 18px; }
 
-  .download-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+  .download-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
   .btn {
     display: inline-flex;
     align-items: center;
@@ -70,13 +130,29 @@
     text-decoration: none;
     border: 1px solid transparent;
     cursor: pointer;
-    transition: transform .08s ease, background .15s ease;
+    transition: transform .08s ease, background .15s ease, border-color .15s ease;
   }
   .btn:active { transform: scale(0.97); }
   .btn-primary { background: var(--accent); color: white; }
   .btn-primary:hover { background: var(--accent-hover); }
   .btn-secondary { background: transparent; color: var(--text); border-color: var(--border); }
   .btn-secondary:hover { background: var(--card-hover); }
+
+  .scan-row { margin-bottom: 14px; }
+  .scan-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    color: var(--text-dim);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 5px 10px;
+    border-radius: 999px;
+    transition: color .15s ease, border-color .15s ease;
+  }
+  .scan-link:hover { color: var(--green); border-color: var(--green); }
+  .scan-link .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
 
   .files-toggle {
     background: none;
@@ -97,9 +173,11 @@
     margin-top: 12px;
     border-top: 1px solid var(--border);
     padding-top: 14px;
-    display: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .25s ease;
   }
-  .file-tree.open { display: block; }
+  .file-tree.open { max-height: 600px; }
   .file-tree ul { list-style: none; margin: 0; padding-left: 18px; }
   .file-tree > ul { padding-left: 0; }
   .file-tree li {
@@ -111,6 +189,19 @@
   .file-tree .folder::before { content: "📁 "; }
   .file-tree .file::before { content: "📄 "; }
 
+  
+  .section-heading {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 40px 0 16px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+  .section-heading:first-of-type { border-top: none; margin-top: 0; }
+
   footer {
     text-align: center;
     color: var(--text-dim);
@@ -118,6 +209,20 @@
     margin-top: 50px;
   }
   footer a { color: var(--accent-hover); text-decoration: none; }
+  .footer-icons { display: flex; justify-content: center; gap: 14px; margin-top: 10px; }
+  .footer-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  .footer-icons a:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .footer-icons svg { width: 16px; height: 16px; fill: var(--text-dim); }
+  .footer-icons a:hover svg { fill: var(--accent-hover); }
 
   .modal-overlay {
     position: fixed; inset: 0;
@@ -169,6 +274,7 @@
     border-radius: var(--radius);
     padding: 22px 24px;
     margin-top: 10px;
+    scroll-margin-top: 90px;
   }
   .feature-box h3 { margin: 0 0 6px; font-size: 16px; }
   .feature-box p { margin: 0 0 14px; color: var(--text-dim); font-size: 13.5px; }
@@ -196,6 +302,13 @@
     font-size: 14px;
     font-family: inherit;
     margin-bottom: 10px;
+    transition: border-color .15s ease;
+  }
+  .feature-box input:focus,
+  .feature-box select:focus,
+  .feature-box textarea:focus {
+    outline: none;
+    border-color: var(--accent);
   }
   .feature-box select { cursor: pointer; }
 
@@ -208,23 +321,39 @@
     text-decoration: none;
     margin-top: 4px;
   }
-  .discord-link:hover { color: var(--text); }
+  .discord-link a { color: var(--text-dim); }
+  .discord-link a:hover { color: var(--text); }
+
+  @media (max-width: 560px) {
+    .nav-links a:not(.nav-cta) { display: none; }
+    .navbar { padding: 12px 16px; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
+
+  <nav class="navbar">
+    <a href="#top" class="nav-brand">
+      <span class="logo-dot"></span>
+      C &amp; K Productions
+    </a>
+    <div class="nav-links">
+      <a href="#top">Home</a>
+      <a href="#contact" class="nav-cta">Contact</a>
+    </div>
+  </nav>
+
+<div class="wrap" id="top">
 
   <header>
     <h1>C & K Productions</h1>
     <p>Free Windows utilities. Download the .exe or grab the full source folder.</p>
+    <p>Roblox Assets, Roblox Game Studio and more.</p>
   </header>
 
+  <div class="section-heading">Windows Utilities</div>
 
-
-
-
-
-
+  
   
   <section class="project">
     <div class="project-header">
@@ -232,7 +361,7 @@
       <span class="version-badge">v1.0.0</span>
     </div>
     <p class="project-desc">
-      A lightweight Windows desktop photo editor built with Python, PySide6, and Pillow. Packaged as a standalone .exe - no installation required.
+      A lightweight Windows desktop photo editor built with Python. Packaged as a standalone .exe — no installation required.
     </p>
 
     <div class="download-row">
@@ -241,7 +370,7 @@
       <a class="btn btn-secondary" href="https://github.com/Servlyn/photo-editor-exe/releases" target="_blank" rel="noopener">View on GitHub ↗</a>
     </div>
 
-    <button class="files-toggle" onclick="toggleTree(this)">
+<button class="files-toggle" onclick="toggleTree(this)">
       <span class="chevron">▶</span> View files
     </button>
     <div class="file-tree">
@@ -264,20 +393,17 @@
     </div>
   </section>
 
+  
 
-
-
-
-
-
-
-<section class="project">
+  
+  
+  <section class="project">
     <div class="project-header">
       <h2 class="project-title">Unbounded Browser.exe</h2>
       <span class="version-badge">v1.0.0</span>
     </div>
     <p class="project-desc">
-      A lightweight Windows desktop browser built on chrome as a standalone .exe - no installation required.
+      A lightweight Windows desktop browser built on Chrome, packaged as a standalone .exe — no installation required.
     </p>
 
     <div class="download-row">
@@ -286,7 +412,7 @@
       <a class="btn btn-secondary" href="https://github.com/Servlyn/unbounded/releases" target="_blank" rel="noopener">View on GitHub ↗</a>
     </div>
 
-    <button class="files-toggle" onclick="toggleTree(this)">
+<button class="files-toggle" onclick="toggleTree(this)">
       <span class="chevron">▶</span> View files
     </button>
     <div class="file-tree">
@@ -304,22 +430,16 @@
             <li class="file">.gitignore</li>
             <li class="file">main.js</li>
             <li class="file">icon.ico</li>
-            <li class="folder">wallpaper
-            </li>
+            <li class="folder">wallpaper</li>
           </ul>
         </li>
       </ul>
     </div>
   </section>
 
-
-
   
 
-
-
-  
-  <div class="feature-box">
+  <div class="feature-box" id="contact">
     <h3>Have a feature request?</h3>
     <p>Let me know what you'd like to see added or changed.</p>
     <form action="https://formsubmit.co/6345db2a7e2e94f1278e47fe13bb3d99" method="POST">
@@ -328,17 +448,25 @@
         <option value="" disabled selected>Select a project</option>
         <option value="PhotoEditorEXE">PhotoEditorEXE</option>
         <option value="UnboundedBrowser">Unbounded Browser</option>
+        <option value="Other">Other Project</option>
       </select>
       <input type="text" name="Name / Email" placeholder="Your name or email (optional)">
-      <textarea name="Feature Request" placeholder="What would you like to see?" required></textarea>
+      <textarea name="Feature Request" placeholder="What would you like to see/suggest?" required></textarea>
       <button class="btn btn-primary" type="submit" style="width:100%; justify-content:center;">Send Request</button>
     </form>
   </div>
 
   <footer>
-    Made by <a href="https://github.com/Servlyn">Servlyn</a> - all downloads are free and open.
-    <br>
-    <span class="discord-link">Discord: coming soon</span>
+    Made by <a href="https://github.com/Servlyn">C & K Productions</a> — all downloads are free and open.
+    <div class="footer-icons">
+      <a href="https://github.com/Servlyn" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.8 1.19 1.83 1.19 3.09 0 4.42-2.69 5.4-5.25 5.68.42.36.78 1.08.78 2.18 0 1.58-.01 2.85-.01 3.24 0 .3.2.66.79.55A11.5 11.5 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+      </a>
+      <a href="" aria-label="Discord (coming soon)">
+        <svg viewBox="0 0 24 24"><path d="M20.3 4.4A19.7 19.7 0 0 0 15.6 3c-.2.4-.5 1-.7 1.4a18.3 18.3 0 0 0-5.8 0A11 11 0 0 0 8.4 3 19.7 19.7 0 0 0 3.7 4.4C1 8.4.3 12.3.6 16.2a19.9 19.9 0 0 0 5.9 3c.5-.6.9-1.3 1.2-2a13 13 0 0 1-1.9-.9c.2-.1.3-.3.5-.4 3.6 1.6 7.5 1.6 11 0l.5.4c-.6.3-1.2.6-1.9.9.3.7.7 1.4 1.2 2 2.2-.7 4.3-1.7 5.9-3 .4-4.9-.8-8.8-2.7-11.8zM9.7 13.9c-.9 0-1.6-.8-1.6-1.8s.7-1.8 1.6-1.8 1.6.8 1.6 1.8-.7 1.8-1.6 1.8zm4.6 0c-.9 0-1.6-.8-1.6-1.8s.7-1.8 1.6-1.8 1.6.8 1.6 1.8-.7 1.8-1.6 1.8z"/></svg>
+      </a>
+    </div>
+    <span class="discord-link">Discord: <a href="">coming soon</a></span>
   </footer>
 </div>
 
@@ -363,6 +491,17 @@
     tree.classList.toggle('open');
     btn.querySelector('.chevron').classList.toggle('open');
   }
+
+  // Scroll-in animation for cards
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.project, .feature-box').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
